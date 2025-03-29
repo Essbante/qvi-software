@@ -1,0 +1,4 @@
+# requirements
+requests
+ipywidgets
+# Add any other libraries your notebooks depend on

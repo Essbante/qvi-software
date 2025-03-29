@@ -1,0 +1,44 @@
+# Use the specific Python 3.12.9 base image
+FROM python:3.12.9-slim
+
+# Set environment variables to potentially prevent interactive prompts during installs
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install system dependencies: git and curl
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        git \
+        curl \
+        libsodium-dev \
+    && \
+    # Clean up APT cache to reduce image size
+    rm -rf /var/lib/apt/lists/*
+
+# Install JupyterLab and required Python packages
+# Using --no-cache-dir helps keep the image smaller
+RUN pip install --no-cache-dir \
+    jupyterlab==4.* \
+    hio==0.6.14
+
+
+# Clone and install KERIpy
+RUN git clone --depth 1 --branch 1.1.32 https://github.com/WebOfTrust/keripy.git /keripy && \
+    cd keripy && \
+    git checkout tags/1.1.32 && \
+    pip install --no-cache-dir -r requirements.txt
+# Set up a working directory for notebooks
+WORKDIR /app/notebooks
+
+# Note: Notebooks are in a the volume
+
+# Expose the default Jupyter port
+EXPOSE 8888
+
+# Command to run JupyterLab
+# --ip=0.0.0.0 makes it accessible from outside the container (on the Docker network)
+# --port=8888 specifies the port
+# --no-browser prevents it from trying to open a browser inside the container
+# --NotebookApp.token='' disables token authentication
+# --NotebookApp.password='' ensures no password is required either
+# --allow-root allows running as root (common in simple containers, consider a non-root user for enhanced security)
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--NotebookApp.token=''", "--NotebookApp.password=''", "--allow-root"]

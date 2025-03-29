@@ -1,0 +1,22 @@
+services:
+  # JupyterLab Service
+  jupyter:
+    build:
+      context: ./jupyter # Path to the directory containing the Dockerfile
+    container_name: jupyter_lab_service
+    ports:
+      - "8888:8888"
+    volumes:
+      # Mount the local 'notebooks' directory into the container's working directory
+      # This allows you to edit notebooks locally and see changes reflected live
+      # Any notebooks placed in ./jupyter/notebooks locally will appear in JupyterLab
+      - ./jupyter/notebooks:/app/notebooks
+    # Ensure it restarts if it crashes (optional)
+    restart: unless-stopped
+    networks:
+      - training_network # Connect to the custom network
+
+# Define the custom network
+networks:
+  training_network:
+    driver: bridge # Default Docker network driver
