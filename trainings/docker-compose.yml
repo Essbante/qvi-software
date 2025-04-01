@@ -1,3 +1,11 @@
+
+
+# Define the custom network
+networks:
+  default:
+    external: true
+    name: vlei
+
 services:
   # JupyterLab Service
   jupyter:
@@ -15,8 +23,3 @@ services:
     restart: unless-stopped
     networks:
       - training_network # Connect to the custom network
-
-# Define the custom network
-networks:
-  training_network:
-    driver: bridge # Default Docker network driver
