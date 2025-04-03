@@ -21,5 +21,3 @@ services:
       - ./jupyter/notebooks:/app/notebooks
     # Ensure it restarts if it crashes (optional)
     restart: unless-stopped
-    networks:
-      - training_network # Connect to the custom network
