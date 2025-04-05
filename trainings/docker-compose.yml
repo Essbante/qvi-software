@@ -1,5 +1,14 @@
 
 
+x-witness-demo-image: &witness-demo-image
+  image: weboftrust/keri:1.1.32
+
+x-healthcheck: &healthcheck
+  interval: 15s
+  timeout: 5s
+  retries: 3
+  start_period: 2s
+
 # Define the custom network
 networks:
   default:
@@ -12,6 +21,9 @@ services:
     build:
       context: ./jupyter # Path to the directory containing the Dockerfile
     container_name: jupyter_lab_service
+    healthcheck:
+      test: curl -f curl http://127.0.0.1:8888/api/status
+      <<: *healthcheck
     ports:
       - "8888:8888"
     volumes:
@@ -19,5 +31,26 @@ services:
       # This allows you to edit notebooks locally and see changes reflected live
       # Any notebooks placed in ./jupyter/notebooks locally will appear in JupyterLab
       - ./jupyter/notebooks:/app/notebooks
-    # Ensure it restarts if it crashes (optional)
+    # Ensure it restarts if it crashes
     restart: unless-stopped
+
+
+  witness-demo:
+    <<: *witness-demo-image
+    environment:
+      - PYTHONUNBUFFERED=1 # Ensure output is logged in real-time
+      - PYTHONIOENCODING=UTF-8 # Ensure consistent logging encoding
+      - PYTHONWARNINGS=ignore::SyntaxWarning # Ignore regular expression syntax warning
+    healthcheck:
+      test: curl -f http://127.0.0.1:5642/oobi
+      <<: *healthcheck
+    command: witness demo
+    volumes:
+      - ./config/witness-demo-docker:/keripy/scripts/keri/cf/main
+    ports:
+      - "5642:5642" # witness named wan
+      - "5643:5643" # witness named wil
+      - "5644:5644" # witness named wes
+      - "5645:5645" # witness named wit
+      - "5646:5646" # witness named wub
+      - "5647:5647" # witness named wyz

@@ -10,6 +10,7 @@ RUN apt-get update && \
         git \
         curl \
         libsodium-dev \
+        jq \
     && \
     # Clean up APT cache to reduce image size
     rm -rf /var/lib/apt/lists/*
@@ -20,12 +21,11 @@ RUN pip install --no-cache-dir \
     jupyterlab==4.* \
     hio==0.6.14
 
-
 # Clone and install KERIpy
 RUN git clone --depth 1 --branch 1.1.32 https://github.com/WebOfTrust/keripy.git /keripy && \
     cd keripy && \
-    git checkout tags/1.1.32 && \
     pip install --no-cache-dir -r requirements.txt
+
 # Set up a working directory for notebooks
 WORKDIR /app/notebooks
 
