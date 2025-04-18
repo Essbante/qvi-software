@@ -1,7 +1,8 @@
 
 
 x-witness-demo-image: &witness-demo-image
-  image: weboftrust/keri:1.1.32
+  image: weboftrust/keri:1.2.6
+  # image: weboftrust/keri:1.1.32
 
 x-healthcheck: &healthcheck
   interval: 15s
@@ -42,7 +43,8 @@ services:
       - PYTHONIOENCODING=UTF-8 # Ensure consistent logging encoding
       - PYTHONWARNINGS=ignore::SyntaxWarning # Ignore regular expression syntax warning
     healthcheck:
-      test: curl -f http://127.0.0.1:5642/oobi
+      # test: curl -f http://127.0.0.1:5642/oobi
+      test: python3 -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:5642/oobi')"
       <<: *healthcheck
     command: witness demo
     volumes:

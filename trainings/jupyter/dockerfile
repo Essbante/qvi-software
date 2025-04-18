@@ -22,7 +22,8 @@ RUN pip install --no-cache-dir \
     hio==0.6.14
 
 # Clone and install KERIpy
-RUN git clone --depth 1 --branch 1.1.32 https://github.com/WebOfTrust/keripy.git /keripy && \
+# RUN git clone --depth 1 --branch 1.1.32 https://github.com/WebOfTrust/keripy.git /keripy && \
+RUN git clone --depth 1 --branch 1.2.6 https://github.com/WebOfTrust/keripy.git /keripy && \
     cd keripy && \
     pip install --no-cache-dir -r requirements.txt
 
