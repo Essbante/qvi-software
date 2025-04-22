@@ -2,7 +2,6 @@
 
 x-witness-demo-image: &witness-demo-image
   image: weboftrust/keri:1.2.6
-  # image: weboftrust/keri:1.1.32
 
 x-healthcheck: &healthcheck
   interval: 15s
@@ -13,8 +12,8 @@ x-healthcheck: &healthcheck
 # Define the custom network
 networks:
   default:
-    external: true
-    name: vlei
+    external: false
+    name: keri_network
 
 services:
   # JupyterLab Service
@@ -43,12 +42,11 @@ services:
       - PYTHONIOENCODING=UTF-8 # Ensure consistent logging encoding
       - PYTHONWARNINGS=ignore::SyntaxWarning # Ignore regular expression syntax warning
     healthcheck:
-      # test: curl -f http://127.0.0.1:5642/oobi
       test: python3 -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:5642/oobi')"
       <<: *healthcheck
-    command: witness demo
+    command: witness demo --loglevel INFO
     volumes:
-      - ./config/witness-demo-docker:/keripy/scripts/keri/cf/main
+      - ./jupyter/notebooks/config/witness-demo-docker:/keripy/scripts/keri/cf/main
     ports:
       - "5642:5642" # witness named wan
       - "5643:5643" # witness named wil
