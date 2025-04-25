@@ -42,4 +42,4 @@ EXPOSE 8888
 # --NotebookApp.token='' disables token authentication
 # --NotebookApp.password='' ensures no password is required either
 # --allow-root allows running as root (common in simple containers, consider a non-root user for enhanced security)
-CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--NotebookApp.token=''", "--NotebookApp.password=''", "--allow-root"]
+CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--NotebookApp.token=''", "--NotebookApp.password=''", "--allow-root", "--FileCheckpoints.checkpoint_dir='/tmp'"]

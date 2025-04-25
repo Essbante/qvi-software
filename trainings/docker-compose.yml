@@ -1,5 +1,6 @@
 
-
+x-vlei-image: &vlei-image
+  image: gleif/vlei:0.2.0
 x-witness-demo-image: &witness-demo-image
   image: weboftrust/keri:1.2.6
 
@@ -18,6 +19,8 @@ networks:
 services:
   # JupyterLab Service
   jupyter:
+    environment:
+      - PYTHONWARNINGS=ignore::SyntaxWarning # Ignore regular expression syntax warning  
     build:
       context: ./jupyter # Path to the directory containing the Dockerfile
     container_name: jupyter_lab_service
@@ -33,6 +36,21 @@ services:
       - ./jupyter/notebooks:/app/notebooks
     # Ensure it restarts if it crashes
     restart: unless-stopped
+
+  vlei-server:
+    <<: *vlei-image
+    environment:
+      - PYTHONUNBUFFERED=1 # Ensure output is logged in real-time
+      - PYTHONIOENCODING=UTF-8 # Ensure consistent logging encoding
+    volumes:
+      - ./jupyter/notebooks/config/schemas:/usr/local/var/vLEI/101_schemas
+    command: [ 'vLEI-server', '-s', './101_schemas', '-c', './101_schemas', '-o', './101_schemas' ]
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://127.0.0.1:7723/oobi/EBfdlu8R27Fbx-ehrqwImnK-8Cm79sqbAQ4MmvEAYqao" ]
+      <<: *healthcheck
+    ports:
+      - "7723:7723"
+
 
 
   witness-demo:
@@ -54,3 +72,6 @@ services:
       - "5645:5645" # witness named wit
       - "5646:5646" # witness named wub
       - "5647:5647" # witness named wyz
+    depends_on:
+      vlei-server:
+        condition: service_healthy
