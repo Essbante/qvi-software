@@ -3,7 +3,8 @@ x-vlei-image: &vlei-image
   image: gleif/vlei:0.2.0
 x-witness-demo-image: &witness-demo-image
   image: weboftrust/keri:1.2.6
-
+x-keria-image: &keria-image
+  image: weboftrust/keria:0.2.0-rc2
 x-healthcheck: &healthcheck
   interval: 15s
   timeout: 5s
@@ -51,8 +52,6 @@ services:
     ports:
       - "7723:7723"
 
-
-
   witness-demo:
     <<: *witness-demo-image
     environment:
@@ -74,4 +73,27 @@ services:
       - "5647:5647" # witness named wyz
     depends_on:
       vlei-server:
+        condition: service_healthy
+
+  keria:
+    <<: *keria-image
+    environment:
+      - KERI_AGENT_CORS=True # Enable CORS for the KERI agent
+      - PYTHONUNBUFFERED=1 # Ensure output is logged in real-time
+      - PYTHONIOENCODING=UTF-8 # Ensure consistent logging encoding
+    volumes:
+      - ./jupyter/notebooks/config/keria/keria-docker.json:/keria/config/keri/cf/keria.json
+    command: --config-dir /keria/config --config-file keria --name agent --loglevel INFO
+    healthcheck:
+      test: [ "CMD", "wget", "--spider", "--tries=1", "--no-verbose", "http://127.0.0.1:3902/spec.yaml" ]
+      <<: *healthcheck
+    ports:
+      - "3901:3901"
+      - "3902:3902"
+      - "3903:3903"
+    entrypoint: [ 'keria', 'start', '--config-dir', '/keria/config', '--config-file', 'keria', '--name', 'agent', '--loglevel', 'INFO' ]
+    depends_on:
+      vlei-server:
+        condition: service_healthy
+      witness-demo:
         condition: service_healthy

@@ -11,9 +11,16 @@ RUN apt-get update && \
         curl \
         libsodium-dev \
         jq \
+        unzip \
     && \
     # Clean up APT cache to reduce image size
     rm -rf /var/lib/apt/lists/*
+
+# Install Deno
+RUN curl -fsSL https://deno.land/install.sh | sh
+
+# Add Deno to PATH
+ENV PATH="/root/.deno/bin:${PATH}"
 
 # Install JupyterLab and required Python packages
 # Using --no-cache-dir helps keep the image smaller
@@ -21,11 +28,18 @@ RUN pip install --no-cache-dir \
     jupyterlab==4.* \
     hio==0.6.14
 
+# Install the Deno Jupyter kernel
+RUN deno jupyter --install && \
+    deno jupyter --unstable
+
+
 # Clone and install KERIpy
-# RUN git clone --depth 1 --branch 1.1.32 https://github.com/WebOfTrust/keripy.git /keripy && \
 RUN git clone --depth 1 --branch 1.2.6 https://github.com/WebOfTrust/keripy.git /keripy && \
     cd keripy && \
     pip install --no-cache-dir -r requirements.txt
+
+# Clone the signify-ts library
+RUN git clone --depth 1 https://github.com/WebOfTrust/signify-ts.git /app/signify-ts
 
 # Set up a working directory for notebooks
 WORKDIR /app/notebooks

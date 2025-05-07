@@ -55,7 +55,7 @@ Create a new random salt (or seed). A salt is a random value used as an input wh
 !kli salt
 ```
 
-    0ABE-Zqpj17pnHUeyNNWsDDd
+    0ACtywbAk0EF1QOLaJETcXCS
 
 
 ### Generate a passcode
@@ -67,7 +67,7 @@ The passcode is used to encrypt your keystore, providing an additional layer of 
 !kli passcode generate
 ```
 
-    ISpoELwfqs7Gahr8W66q4
+    KZDp4SH2IwBvFMQMj1pLX
 
 
 ### Print a timestamp
@@ -77,7 +77,7 @@ The passcode is used to encrypt your keystore, providing an additional layer of 
 !kli time
 ```
 
-    2025-05-01T01:46:15.061138+00:00
+    2025-05-07T03:13:31.352525+00:00
 
 
 ### Display help menu

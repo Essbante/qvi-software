@@ -244,7 +244,7 @@ phrase_a = exec("kli challenge generate --out string")
 phrase_b = exec("kli challenge generate --out string")
 ```
 
-    brain acquire absent survey ramp slam oppose salmon hen act true stock
+    staff sound curtain wave hobby rally quality frog tell grain faculty garbage
 
 
 Now, simulate the OOB exchange: `aid_b` sends `phrase_b` to `aid_a`, and `aid_a` sends `phrase_a` to `aid_b`. Each party then uses `kli challenge respond` to sign the phrase they received and `kli challenge verify` to check the response from the other party.
@@ -261,7 +261,7 @@ print(phrase_a)
     --recipient {aid_a}
 ```
 
-    win trigger shock slight course narrow total high guilt profit outer length
+    produce deliver essence clap analyst drill maid option comfort disagree indicate pumpkin
 
 
 
@@ -275,7 +275,7 @@ print(phrase_a)
 
     Checking mailboxes for any challenge responses..
     
-    Signer aid_b successfully responded to challenge words: '['win', 'trigger', 'shock', 'slight', 'course', 'narrow', 'total', 'high', 'guilt', 'profit', 'outer', 'length']'
+    Signer aid_b successfully responded to challenge words: '['produce', 'deliver', 'essence', 'clap', 'analyst', 'drill', 'maid', 'option', 'comfort', 'disagree', 'indicate', 'pumpkin']'
     
 
 
@@ -290,7 +290,7 @@ print(phrase_b)
     --recipient {aid_b}
 ```
 
-    market shuffle card brave disagree mobile cool reward phrase nurse birth purpose
+    speed city slender kangaroo ordinary cable urban panic police theme never trade
 
 
 
@@ -304,7 +304,7 @@ print(phrase_b)
 
     Checking mailboxes for any challenge responses..
     
-    Signer aid_a successfully responded to challenge words: '['market', 'shuffle', 'card', 'brave', 'disagree', 'mobile', 'cool', 'reward', 'phrase', 'nurse', 'birth', 'purpose']'
+    Signer aid_a successfully responded to challenge words: '['speed', 'city', 'slender', 'kangaroo', 'ordinary', 'cable', 'urban', 'panic', 'police', 'theme', 'never', 'trade']'
     
 
 

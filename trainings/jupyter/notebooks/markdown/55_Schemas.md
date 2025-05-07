@@ -130,18 +130,13 @@ To write your schema, most of the customization will happen inside the payload a
 
 <div class="alert alert-info">
   <b>ℹ️ NOTE</b><hr>
-    The ACDC schema definitionn allows for optional payload blocks called <code>e</code> (edges) and <code>r</code> (rules). Edges and rules won't be covered in detail.
+    The ACDC schema definitionn allows for optional payload blocks called <code>e</code> (edges) and <code>r</code> (rules).
     <ul>
-        <li>The <code>e</code> section defines links (edges) to other ACDCs, creating verifiable chains or graphs of related credentials. For more details see <a href="https://trustoverip.github.io/tswg-acdc-specification/#edge-section">edges</a></li>
-        <li>The <code>r</code> section allows embedding machine-readable rules or legal prose, such as Ricardian Contracts, directly into the credential. For more details see <a href="https://trustoverip.github.io/tswg-acdc-specification/#rules-section">rules</a></li>
+        <li>The <code>e</code> section defines links (edges) to other ACDCs, creating verifiable chains of related credentials. For more details see <a href="https://trustoverip.github.io/tswg-acdc-specification/#edge-section"><b>edges</b></a></li>
+        <li>The <code>r</code> section allows embedding machine-readable rules or legal prose, such as Ricardian Contracts, directly into the credential. For more details see <a href="https://trustoverip.github.io/tswg-acdc-specification/#rules-section"><b>rules</b></a></li>
 </div>
 
 <div class="alert alert-primary">
   <b>📝 SUMMARY</b><hr>
 An ACDC Schema acts as a verifiable blueprint defining the structure, data types, and rules for an Authentic Chained Data Container (ACDC). Written using the JSON Schema specification, they ensure ACDCs have the expected format (validation) and enable different parties to understand exchanged credentials (interoperability). Key components include top-level metadata (like the schema's SAID in $id, title, credentialType, version) and a properties section defining the ACDC envelope fields (v, d, i, s, etc.) and payload sections. The main payload section is attributes (a), containing issuer/issuee info and custom claims, with optional sections for edges (e) linking other ACDCs and rules (r).
 </div>
-
-
-```python
-
-```
