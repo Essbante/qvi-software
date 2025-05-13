@@ -35,6 +35,10 @@ services:
       # This allows you to edit notebooks locally and see changes reflected live
       # Any notebooks placed in ./jupyter/notebooks locally will appear in JupyterLab
       - ./jupyter/notebooks:/app/notebooks
+      # The Notebooks in .markdown will be available here
+      - ./markdown:/app/markdown
+      # Utility scripts for JupyterLab
+      - ./jupyter/utils:/app/utils
     # Ensure it restarts if it crashes
     restart: unless-stopped
 

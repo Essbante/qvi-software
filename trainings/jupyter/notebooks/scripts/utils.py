@@ -1,17 +1,35 @@
 import subprocess
+import os
 
-def clear_keri():
+def clear_keri(prompt_confirmation=False):
+
     path = "/usr/local/var/keri/"
-    confirm = input("🚨 This will clear your keystore. Are you sure? (y/n): ")
-    if confirm.lower() == "y":
-        print("Proceeding...")
+    proceed_with_deletion = False
+
+    if prompt_confirmation:
+        confirm = input(f"🚨 This will clear your keystore at '{path}'. Are you sure? (y/n): ")
+        if confirm.lower() == "y":
+            print("Proceeding with deletion...")
+            proceed_with_deletion = True
+        else:
+            print("Operation cancelled by user.")
+    else:
+        proceed_with_deletion = True
+        print(f"Proceeding with deletion of '{path}' without confirmation.")
+
+    if proceed_with_deletion:
         try:
+            if not os.path.exists(path):
+                print(f"⚠️ Path not found: {path}. Nothing to remove.")
+                return
             subprocess.run(["rm", "-rf", path], check=True)
             print(f"✅ Successfully removed: {path}")
         except subprocess.CalledProcessError as e:
             print(f"❌ Error removing {path}: {e}")
-    else:
-        print("Operation cancelled.")
+        except FileNotFoundError: # Should not happen with rm -rf, but good for other commands
+            print(f"❌ Path not found during removal attempt (should have been caught earlier): {path}")
+        except Exception as e: # Catch any other potential errors
+            print(f"❌ An unexpected error occurred: {e}")
 
 def exec(command_string: str, return_all_lines: bool = False):
     ipython = get_ipython()
